@@ -1,0 +1,179 @@
+{
+  "name": "fda-decisions",
+  "title": "FDA regulatory decisions and enforcement actions, from openFDA bulk exports",
+  "written": "2026-10-12",
+  "order": "O-32",
+  "doc": "docs/42-data-libraries.md",
+  "parser": "parse.py",
+  "hf_repo": "fda-regulatory-decisions",
+  "feed_url": "https://apify.com/1mp/fda-change-feed",
+  "cadence": "daily",
+  "shard_field": "endpoint",
+  "key": ["endpoint", "record_key"],
+  "licence": {
+    "id": "CC0-1.0",
+    "name": "Creative Commons CC0 1.0 Universal",
+    "proof": "openFDA's own licensing page dedicates the content to the public domain under CC0 1.0.",
+    "proof_url": "https://open.fda.gov/license/",
+    "proof_read": "2026-10-12",
+    "source_statement": "As noted in the terms of service, unless otherwise noted, the content, data, documentation, code, and related materials on openFDA is public domain and made available with a Creative Commons CC0 1.0 Universal dedication.",
+    "statement_seen_in": "the body of https://open.fda.gov/license/, last modified May 27, 2014, read unchanged on 2026-10-12",
+    "gmdn_carve_out": "The same page says GMDN Term Code, Name and Definition are supplied under licence from The GMDN Agency and need a licence from them for commercial use and for AI training purposes. drop_fields below is the gate; no endpoint in this library has a GMDN field."
+  },
+  "source": {
+    "host": "download.open.fda.gov",
+    "manifest": "https://api.fda.gov/download.json",
+    "manifest_read": "2026-10-12",
+    "partition": "https://download.open.fda.gov/{category}/{name}/{stem}-{part}.json.zip",
+    "needs_key": false,
+    "user_agent": "1mp-library-builder/0.1 (+https://github.com/o0Praiz/1mp-data)",
+    "robots": [
+      {"url": "https://www.fda.gov/robots.txt", "read": "2026-10-12", "http": 200, "bytes": 2505, "says": "A Drupal policy for the web site. Disallows /core/, /profiles/, /admin/, /node/, /file/, /taxonomy/, /search/, /health and the /user/ paths; Disallow: / for one named agent, vspider; Crawl-delay: 2 for usasearch. Says nothing about bulk data, and this library fetches nothing from this host."},
+      {"url": "https://open.fda.gov/robots.txt", "read": "2026-10-12", "http": 403, "bytes": 474, "says": "No robots.txt is served. The body is an S3/CloudFront AccessDenied page for the static site, not a policy, so there is no rule to obey and no rule to claim. This library fetches nothing from this host either; only the human-readable licence page was read, by hand, once."},
+      {"url": "https://download.open.fda.gov/robots.txt", "read": "2026-10-12", "http": 403, "bytes": 111, "says": "No robots.txt is served. The body is the S3 XML <Error><Code>AccessDenied</Code></Error>, which is what that bucket returns for any key it does not hold. This is the host the bulk files come from, so: no policy is published, and the build fetches only the exact partition URLs that openFDA's own api.fda.gov/download.json advertises for download, one request per endpoint per day, nine requests in all."},
+      {"url": "https://api.fda.gov/robots.txt", "read": "2026-10-12", "http": 404, "bytes": 149, "says": "No robots.txt. The body is the API app's own 'Cannot GET /robots.txt'. One request per endpoint per build, to download.json only."}
+    ],
+    "robots_note": "Three of the four hosts publish no robots.txt at all; a 403 or a 404 on robots.txt is the absence of a policy and is recorded as such, not read as permission for anything beyond the published bulk URLs. O-32 recorded the same 403 on open.fda.gov and found the same on download.open.fda.gov.",
+    "endpoints": [
+      {
+        "shard": "drug-drugsfda",
+        "endpoint": "drug/drugsfda",
+        "key": ["application_number"],
+        "ids": {"application_number": "application_number"},
+        "total_records_read_2026_10_12": 29383,
+        "total_records_in_order_2026_10_07": 29379,
+        "what": "One row is one FDA drug application (NDA, ANDA or BLA), with its products and its submission history."
+      },
+      {
+        "shard": "drug-orangebook",
+        "endpoint": "drug/orangebook",
+        "key": ["products[0].application_type", "products[0].application_number", "product_number"],
+        "ids": {"application_number": "products[0].application_number", "product_number": "product_number"},
+        "total_records_read_2026_10_12": 48761,
+        "total_records_in_order_2026_10_07": 48761,
+        "what": "One row is one Orange Book product: an approved drug product with its therapeutic-equivalence codes, and its patent and exclusivity entries where FDA lists them. Checked 2026-10-12: all 48,761 records carry exactly one element in products, so products[0] is the record's own product and not a choice among several."
+      },
+      {
+        "shard": "drug-enforcement",
+        "endpoint": "drug/enforcement",
+        "key": ["recall_number"],
+        "key_fallback": ["event_id"],
+        "ids": {"recall_number": "recall_number", "event_id": "event_id"},
+        "total_records_read_2026_10_12": 18002,
+        "total_records_in_order_2026_10_07": 18002,
+        "what": "One row is one drug recall as FDA's Enforcement Report publishes it."
+      },
+      {
+        "shard": "device-510k",
+        "endpoint": "device/510k",
+        "key": ["k_number"],
+        "ids": {"k_number": "k_number", "product_code": "product_code"},
+        "total_records_read_2026_10_12": 176299,
+        "total_records_in_order_2026_10_07": 176299,
+        "what": "One row is one 510(k) premarket notification decision."
+      },
+      {
+        "shard": "device-classification",
+        "endpoint": "device/classification",
+        "key": ["product_code"],
+        "ids": {"product_code": "product_code"},
+        "total_records_read_2026_10_12": 7094,
+        "total_records_in_order_2026_10_07": 7094,
+        "what": "One row is one device product code, with its class, regulation number and FDA definition."
+      },
+      {
+        "shard": "device-pma",
+        "endpoint": "device/pma",
+        "key": ["pma_number", "supplement_number"],
+        "ids": {"pma_number": "pma_number", "supplement_number": "supplement_number", "product_code": "product_code"},
+        "total_records_read_2026_10_12": 57238,
+        "total_records_in_order_2026_10_07": 57238,
+        "what": "One row is one premarket approval decision or supplement. 1,480 of them are an original PMA with an empty supplement_number; the pair is still unique across all 57,238."
+      },
+      {
+        "shard": "device-recall",
+        "endpoint": "device/recall",
+        "key": ["product_res_number"],
+        "ids": {"product_code": "product_code", "event_id": "res_event_number"},
+        "total_records_read_2026_10_12": 59468,
+        "total_records_in_order_2026_10_07": 59344,
+        "what": "One row is one device recall record from FDA's recall database, keyed on its RES number."
+      },
+      {
+        "shard": "device-enforcement",
+        "endpoint": "device/enforcement",
+        "key": ["recall_number"],
+        "key_fallback": ["event_id"],
+        "ids": {"recall_number": "recall_number", "event_id": "event_id"},
+        "total_records_read_2026_10_12": 40113,
+        "total_records_in_order_2026_10_07": 40113,
+        "what": "One row is one device recall as FDA's Enforcement Report publishes it."
+      },
+      {
+        "shard": "food-enforcement",
+        "endpoint": "food/enforcement",
+        "key": ["recall_number"],
+        "key_fallback": ["event_id"],
+        "ids": {"recall_number": "recall_number", "event_id": "event_id"},
+        "total_records_read_2026_10_12": 29471,
+        "total_records_in_order_2026_10_07": 29471,
+        "what": "One row is one food or cosmetic recall as FDA's Enforcement Report publishes it."
+      }
+    ]
+  },
+  "count_checks": [
+    {"source": "source_records", "parsed": "rows_built",
+     "why": "openFDA's own total_records for this endpoint, read live from download.json, must equal the rows built"},
+    {"source": "partition_records", "parsed": "rows_built",
+     "why": "the record count download.json gives for this partition must equal the rows built"},
+    {"source": "file_records", "parsed": "rows_built",
+     "why": "the count in the exported file's own meta.results.total must equal the rows built"},
+    {"source": "records_read", "parsed": "rows_built",
+     "why": "every record the streaming reader saw must become exactly one row"}
+  ],
+  "drop_fields": [
+    {
+      "endpoint": "device/510k",
+      "field": "contact",
+      "why": "The name of a named individual at the applicant firm, on 151,655 of 176,299 records as read 2026-10-12. Personal data is out on docs/42 section 5 and on rail 1. The decision record stays; the person's name does not."
+    },
+    {
+      "endpoint": "device/recall",
+      "field": "additional_info_contact",
+      "why": "The name of a named individual and a direct telephone number, on 52,748 of 59,468 records as read 2026-10-12. Personal data is out on docs/42 section 5 and on rail 1."
+    }
+  ],
+  "totals": ["records_read", "rows_built", "dropped_field_count",
+             "gmdn_fields", "key_from_fallback"],
+  "schema": [
+    {"name": "endpoint", "type": "string", "note": "the openFDA endpoint, e.g. device/510k. With record_key this is the row key"},
+    {"name": "record_key", "type": "string", "note": "the endpoint's own key, its parts joined with |. Unique within the endpoint"},
+    {"name": "key_fields", "type": "string", "note": "the source field name or names record_key was taken from, joined with |"},
+    {"name": "export_date", "type": "string", "note": "the export date openFDA published for this endpoint, read from download.json at build time"},
+    {"name": "record", "type": "string", "note": "the whole openFDA record as compact JSON with its keys sorted, minus the fields in drop_fields"},
+    {"name": "record_fields", "type": "int32", "note": "number of top-level fields in record"},
+    {"name": "record_len", "type": "int32", "note": "characters in record"},
+    {"name": "dropped_fields", "type": "string", "note": "the drop_fields this record carried before they were removed, joined with |. Empty when none"},
+    {"name": "application_number", "type": "string", "note": "drug/drugsfda and drug/orangebook. Empty elsewhere"},
+    {"name": "recall_number", "type": "string", "note": "the three enforcement endpoints. Empty elsewhere"},
+    {"name": "k_number", "type": "string", "note": "device/510k. Empty elsewhere"},
+    {"name": "pma_number", "type": "string", "note": "device/pma. Empty elsewhere"},
+    {"name": "supplement_number", "type": "string", "note": "device/pma. Empty elsewhere"},
+    {"name": "product_code", "type": "string", "note": "device/510k, device/classification, device/pma and device/recall. Empty elsewhere"},
+    {"name": "product_number", "type": "string", "note": "drug/orangebook. Empty elsewhere"},
+    {"name": "event_id", "type": "string", "note": "the three enforcement endpoints, and device/recall's res_event_number. Empty elsewhere"},
+    {"name": "partition_file", "type": "string", "note": "the name of the JSON file inside the source zip"},
+    {"name": "manifest_url", "type": "string", "note": "the download manifest this build read the export date and the record count from"},
+    {"name": "source_url", "type": "string", "note": "the openFDA bulk partition this row came from"},
+    {"name": "retrieved_at", "type": "string", "note": "UTC, when the source bytes were fetched"},
+    {"name": "sha256", "type": "string", "note": "sha256 of the source zip's bytes"}
+  ],
+  "not_covered": [
+    "The adverse-event endpoints: drug/event, device/event, food/event, animalandveterinary/event and cosmetic/event. They are reports about individual people, carrying age, sex, weight and medical history. Personal data is out on docs/42 section 5 and on rail 1. This build never requests them, not even to count them; the record counts printed for them above come from openFDA's own download manifest.",
+    "device/udi. Its records carry GMDN Term Code, Name and Definition, and open.fda.gov/license says GMDN content needs a licence from The GMDN Agency for commercial use and for AI training purposes. docs/42 section 5 allows CC0 and CC-BY only, so it is out.",
+    "The multi-partition endpoints that are neither of the above: drug/label (14 partitions), other/nsde (3), device/registrationlisting (2) and animalandveterinary, device and drug event files. This library is built for single-partition endpoints, so that one endpoint is one zip and the whole library rebuilds daily inside the 20-minute budget.",
+    "Single-partition endpoints outside the administrative set O-32 named: device/covid19serology, drug/ndc, drug/shortages, other/historicaldocument, other/substance, other/unii, research/*, tobacco/problem and transparency/crl. Not refused on any rail, simply not in scope for O-32.",
+    "The contact fields listed under drop_fields. The decision record is here; the named individual is not.",
+    "Any interpretation. A row is the agency's administrative record, unchanged. This library says nothing about what an approval, a classification or a recall means."
+  ]
+}

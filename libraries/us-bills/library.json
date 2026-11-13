@@ -1,0 +1,78 @@
+{
+  "name": "us-bills",
+  "title": "US bills and resolutions with their official summaries, 116th to 119th Congress",
+  "written": "2026-10-07",
+  "order": "O-30",
+  "doc": "docs/42-data-libraries.md",
+  "parser": "parse.py",
+  "hf_repo": "us-bills-summaries",
+  "feed_url": "https://apify.com/1mp/us-bills-change-feed",
+  "cadence": "daily",
+  "shard_field": "congress",
+  "key": ["bill_id", "version_code"],
+  "licence": {
+    "id": "other-pd-us-gov",
+    "name": "US Government work, no copyright",
+    "proof": "17 U.S.C. §105",
+    "proof_url": "https://www.law.cornell.edu/uscode/text/17/105",
+    "source_statement": "Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.",
+    "statement_seen_in": "the dublinCore dc:rights element of every BILLSUM and BILLS XML file"
+  },
+  "source": {
+    "host": "www.govinfo.gov",
+    "robots": "https://www.govinfo.gov/robots.txt",
+    "robots_read": "2026-10-07",
+    "robots_note": "Disallows /core/, /profiles/, /search/, /admin/ and the user paths. Says nothing about /bulkdata/.",
+    "needs_key": false,
+    "user_agent": "1mp-library-builder/0.1 (+https://github.com/o0Praiz/1mp-data)",
+    "congresses": [116, 117, 118, 119],
+    "types": ["hr", "s", "hres", "hjres", "sres", "sjres", "hconres", "sconres"],
+    "sessions": [1, 2],
+    "summary_zip": "https://www.govinfo.gov/bulkdata/BILLSUM/{congress}/{type}/BILLSUM-{congress}-{type}.zip",
+    "text_zip": "https://www.govinfo.gov/bulkdata/BILLS/{congress}/{session}/{type}/BILLS-{congress}-{session}-{type}.zip",
+    "page": "https://www.govinfo.gov/app/details/BILLS-{congress}{type}{number}{text_version_code}"
+  },
+  "exclude": [
+    {
+      "field": "title",
+      "match": "for the relief of",
+      "mode": "contains_ci",
+      "why": "private relief bills name a living person; personal data is out on docs/42 §5. The rule runs on every measure type, not just hr and s"
+    }
+  ],
+  "schema": [
+    {"name": "bill_id", "type": "string", "note": "congress-type-number, e.g. 119-hr-29"},
+    {"name": "congress", "type": "int32"},
+    {"name": "type", "type": "string", "note": "hr, s, hres, sres, hjres, sjres, hconres or sconres"},
+    {"name": "number", "type": "int32"},
+    {"name": "summary_id", "type": "string", "note": "govinfo summary-id, e.g. id119hr29v00"},
+    {"name": "version_code", "type": "string", "note": "the summary's version suffix, e.g. v00. With bill_id this is the row key"},
+    {"name": "title", "type": "string"},
+    {"name": "summary_text", "type": "string", "note": "HTML stripped, paragraphs kept as blank-line breaks"},
+    {"name": "summary", "type": "string", "note": "alias of summary_text, so FiscalNote/billsum code runs unchanged"},
+    {"name": "summary_action_date", "type": "string"},
+    {"name": "summary_action_desc", "type": "string"},
+    {"name": "summary_chamber", "type": "string"},
+    {"name": "origin_chamber", "type": "string"},
+    {"name": "orig_publish_date", "type": "string"},
+    {"name": "update_date", "type": "string"},
+    {"name": "text", "type": "string", "note": "bill text of the version the summary describes, else the latest available"},
+    {"name": "text_version_code", "type": "string", "note": "govinfo bill version, e.g. ih, eh, es, enr"},
+    {"name": "text_match", "type": "string", "note": "action if the version was chosen from the summary's action, latest if it fell back, none if no text was found"},
+    {"name": "text_len", "type": "int32"},
+    {"name": "sum_len", "type": "int32"},
+    {"name": "source_url", "type": "string", "note": "both source files, space separated"},
+    {"name": "source_url_summary", "type": "string"},
+    {"name": "source_url_text", "type": "string"},
+    {"name": "retrieved_at", "type": "string", "note": "UTC, when the source bytes were fetched"},
+    {"name": "sha256", "type": "string", "note": "sha256 of the summary source bytes, then of the text source bytes, space separated"},
+    {"name": "sha256_summary", "type": "string"},
+    {"name": "sha256_text", "type": "string"}
+  ],
+  "not_covered": [
+    "Congresses before the 116th. FiscalNote/billsum covers the 103rd to the 115th, and California bills, which this library does not.",
+    "Private relief bills, excluded on the rule above. The rule runs on every measure type.",
+    "Measures with no official summary. govinfo publishes a summary only once CRS writes one, so a bill or resolution without one has no row here.",
+    "Amendments, treaties, conference reports and nominations. The eight measure types covered are hr, s, hres, sres, hjres, sjres, hconres and sconres."
+  ]
+}

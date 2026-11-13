@@ -1,0 +1,7 @@
+{
+  "_doc": "The offer on the two Hugging Face dataset cards. engines/library/build.py reads it at each build. Set live to true only after the deploy of item 1 and its live test. base_url is the Supabase functions URL, https://<ref>.supabase.co/functions/v1. load is weekly or daily: change it when the load in the Monday job changes. docs/45 section 8.",
+  "live": false,
+  "base_url": "",
+  "price_usd_month": 29,
+  "load": "weekly"
+}

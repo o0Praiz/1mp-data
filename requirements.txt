@@ -1,0 +1,4 @@
+# pyarrow writes the Parquet shards. Without it, build.py writes
+# .jsonl.gz and says so. huggingface_hub publishes the shards.
+pyarrow>=16
+huggingface_hub>=0.25

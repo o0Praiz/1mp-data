@@ -1,0 +1,1049 @@
+{
+ "library": "us-bills",
+ "title": "US bills and resolutions with their official summaries, 116th to 119th Congress",
+ "built": "2026-11-10",
+ "built_at": "2026-11-10T18:00:10Z",
+ "shards_in_spec": [
+  "116",
+  "117",
+  "118",
+  "119"
+ ],
+ "shards_built": [
+  "116",
+  "117",
+  "118",
+  "119"
+ ],
+ "rotate": false,
+ "licence": {
+  "id": "other-pd-us-gov",
+  "name": "US Government work, no copyright",
+  "proof": "17 U.S.C. \u00a7105",
+  "proof_url": "https://www.law.cornell.edu/uscode/text/17/105",
+  "source_statement": "Pursuant to Title 17 Section 105 of the United States Code, this file is not subject to copyright protection and is in the public domain.",
+  "statement_seen_in": "the dublinCore dc:rights element of every BILLSUM and BILLS XML file"
+ },
+ "schema": [
+  {
+   "name": "bill_id",
+   "type": "string",
+   "note": "congress-type-number, e.g. 119-hr-29"
+  },
+  {
+   "name": "congress",
+   "type": "int32"
+  },
+  {
+   "name": "type",
+   "type": "string",
+   "note": "hr, s, hres, sres, hjres, sjres, hconres or sconres"
+  },
+  {
+   "name": "number",
+   "type": "int32"
+  },
+  {
+   "name": "summary_id",
+   "type": "string",
+   "note": "govinfo summary-id, e.g. id119hr29v00"
+  },
+  {
+   "name": "version_code",
+   "type": "string",
+   "note": "the summary's version suffix, e.g. v00. With bill_id this is the row key"
+  },
+  {
+   "name": "title",
+   "type": "string"
+  },
+  {
+   "name": "summary_text",
+   "type": "string",
+   "note": "HTML stripped, paragraphs kept as blank-line breaks"
+  },
+  {
+   "name": "summary",
+   "type": "string",
+   "note": "alias of summary_text, so FiscalNote/billsum code runs unchanged"
+  },
+  {
+   "name": "summary_action_date",
+   "type": "string"
+  },
+  {
+   "name": "summary_action_desc",
+   "type": "string"
+  },
+  {
+   "name": "summary_chamber",
+   "type": "string"
+  },
+  {
+   "name": "origin_chamber",
+   "type": "string"
+  },
+  {
+   "name": "orig_publish_date",
+   "type": "string"
+  },
+  {
+   "name": "update_date",
+   "type": "string"
+  },
+  {
+   "name": "text",
+   "type": "string",
+   "note": "bill text of the version the summary describes, else the latest available"
+  },
+  {
+   "name": "text_version_code",
+   "type": "string",
+   "note": "govinfo bill version, e.g. ih, eh, es, enr"
+  },
+  {
+   "name": "text_match",
+   "type": "string",
+   "note": "action if the version was chosen from the summary's action, latest if it fell back, none if no text was found"
+  },
+  {
+   "name": "text_len",
+   "type": "int32"
+  },
+  {
+   "name": "sum_len",
+   "type": "int32"
+  },
+  {
+   "name": "source_url",
+   "type": "string",
+   "note": "both source files, space separated"
+  },
+  {
+   "name": "source_url_summary",
+   "type": "string"
+  },
+  {
+   "name": "source_url_text",
+   "type": "string"
+  },
+  {
+   "name": "retrieved_at",
+   "type": "string",
+   "note": "UTC, when the source bytes were fetched"
+  },
+  {
+   "name": "sha256",
+   "type": "string",
+   "note": "sha256 of the summary source bytes, then of the text source bytes, space separated"
+  },
+  {
+   "name": "sha256_summary",
+   "type": "string"
+  },
+  {
+   "name": "sha256_text",
+   "type": "string"
+  }
+ ],
+ "exclude": [
+  {
+   "field": "title",
+   "match": "for the relief of",
+   "mode": "contains_ci",
+   "why": "private relief bills name a living person; personal data is out on docs/42 \u00a75. The rule runs on every measure type, not just hr and s"
+  }
+ ],
+ "not_covered": [
+  "Congresses before the 116th. FiscalNote/billsum covers the 103rd to the 115th, and California bills, which this library does not.",
+  "Private relief bills, excluded on the rule above. The rule runs on every measure type.",
+  "Measures with no official summary. govinfo publishes a summary only once CRS writes one, so a bill or resolution without one has no row here.",
+  "Amendments, treaties, conference reports and nominations. The eight measure types covered are hr, s, hres, sres, hjres, sjres, hconres and sconres."
+ ],
+ "sources": [
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/116/hr/BILLSUM-116-hr.zip",
+   "role": "summary",
+   "size": 11503004,
+   "sha256": "751c5ed62cb70699dc027038739197a7582e2d53bf0a30844bf6c3061337a8f4"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/1/hr/BILLS-116-1-hr.zip",
+   "role": "text",
+   "size": 50911294,
+   "sha256": "f4c38842f9d506e583b41622c210e535dd10f10cf4dac608bd42ed5514a276a7"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/2/hr/BILLS-116-2-hr.zip",
+   "role": "text",
+   "size": 58309151,
+   "sha256": "f1a048dcb3dc4ebcdfd3dbc8faeb8d22b0f37b102fe0771e14d11aabe849185b"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/116/s/BILLSUM-116-s.zip",
+   "role": "summary",
+   "size": 6426770,
+   "sha256": "304636acc63031d4f87c18468752ddb9bfbe6aa3380b2ca59488693ded0177ae"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/1/s/BILLS-116-1-s.zip",
+   "role": "text",
+   "size": 31907949,
+   "sha256": "ff58679471d3010134ecb9929b73ac352c5d6995ed4541723eaa4aaadf205bdd"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/2/s/BILLS-116-2-s.zip",
+   "role": "text",
+   "size": 22665940,
+   "sha256": "4627e0722d7cd23dc4a81ff64742dba59f4fe8c6971240ef8745be954a7ced13"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/116/hres/BILLSUM-116-hres.zip",
+   "role": "summary",
+   "size": 1424087,
+   "sha256": "a4f64664793ecb77f9075ffe55aaf9b2d75a2de1a5a639881f50dadfe2cb5d16"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/1/hres/BILLS-116-1-hres.zip",
+   "role": "text",
+   "size": 2555024,
+   "sha256": "2fa7f59a177b8620adddaced522418aa567ec3a3695cca5fd1854862d3448c92"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/2/hres/BILLS-116-2-hres.zip",
+   "role": "text",
+   "size": 1808344,
+   "sha256": "537b35d32f45885195de7bc010f81b58008c8d14d4e01ce803caecb4f39ad488"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/116/hjres/BILLSUM-116-hjres.zip",
+   "role": "summary",
+   "size": 259197,
+   "sha256": "55153c78077a8b05a0e2cece6a19ce78d817025a06d6282613674cc7e172afc8"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/1/hjres/BILLS-116-1-hjres.zip",
+   "role": "text",
+   "size": 716935,
+   "sha256": "218ac44cda64e6ba48cb29947c5f6e7bcc7892ea9a18c31963fc849c2036455b"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/2/hjres/BILLS-116-2-hjres.zip",
+   "role": "text",
+   "size": 85362,
+   "sha256": "f115630fab942ef272979bedc342e98d8568e8ccfce04bb016ac017fd9ec46ff"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/116/sres/BILLSUM-116-sres.zip",
+   "role": "summary",
+   "size": 898171,
+   "sha256": "cfab2ff729de7e1d39111c28797604765dfe6c8ae5f0dfce5c9271e5cb82c7d3"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/1/sres/BILLS-116-1-sres.zip",
+   "role": "text",
+   "size": 1772886,
+   "sha256": "d2e6bfce4fb2011bca3f0eedce18f9439f23144d955fe2f393bcefb2ea8e04f1"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/2/sres/BILLS-116-2-sres.zip",
+   "role": "text",
+   "size": 1353248,
+   "sha256": "686286bae9c2623b9e1dd2037d06e7cdfd65a083e03b9c0f4bd4fd994918bef4"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/116/sjres/BILLSUM-116-sjres.zip",
+   "role": "summary",
+   "size": 94073,
+   "sha256": "707c786dbe3605e72f526090d3f725e04a480db239fdb365f411a7f624ad6b89"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/1/sjres/BILLS-116-1-sjres.zip",
+   "role": "text",
+   "size": 181682,
+   "sha256": "eef29256339ff1f09b98edd4258de36e87dc6310fc9f0807f01bd879a745751a"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/2/sjres/BILLS-116-2-sjres.zip",
+   "role": "text",
+   "size": 64104,
+   "sha256": "0de16fd827e0e1e1b21da88184549374872fced192d5e885c44a5d9360475703"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/116/hconres/BILLSUM-116-hconres.zip",
+   "role": "summary",
+   "size": 143307,
+   "sha256": "683bb5c77d0cbd64bf208c53aca80395430ef835c878184bc721eef728b513f6"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/1/hconres/BILLS-116-1-hconres.zip",
+   "role": "text",
+   "size": 313287,
+   "sha256": "1514c99d62ead5fa6717352debf2d8e7e22a7a87a126dc04cd2a7df7cb276142"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/2/hconres/BILLS-116-2-hconres.zip",
+   "role": "text",
+   "size": 184831,
+   "sha256": "bd3f4b2fe19704285c372e7673cc476a902f1115f6fbeff9c2adb03e58d5620f"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/116/sconres/BILLSUM-116-sconres.zip",
+   "role": "summary",
+   "size": 60384,
+   "sha256": "61110c94abba630b1b5f1699072ebebcbdbb8ff7d561b0d9bb9bc6b0ebf4a324"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/1/sconres/BILLS-116-1-sconres.zip",
+   "role": "text",
+   "size": 236895,
+   "sha256": "18d0c035040d4e97f3470e854ee5968e97f9722e59504ea049c5f9bbe0259ea4"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/116/2/sconres/BILLS-116-2-sconres.zip",
+   "role": "text",
+   "size": 82403,
+   "sha256": "386d8d37d2627a3bf48950092b61a2c61fd0f58e168b7e09534d1daf4c754f85"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/117/hr/BILLSUM-117-hr.zip",
+   "role": "summary",
+   "size": 12422565,
+   "sha256": "75928d02599cec42874141d536962dfa3dc331baf09b0c98d5b69772a0b56366"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/1/hr/BILLS-117-1-hr.zip",
+   "role": "text",
+   "size": 61434327,
+   "sha256": "a0dc56a37da37dd1ed340bd87824a34dead5889b24e923e9107a6ba462e3bd4a"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/2/hr/BILLS-117-2-hr.zip",
+   "role": "text",
+   "size": 53883025,
+   "sha256": "dd0198d11b5e44053f70a881d8fe111254ea78e1cf4dbe7d06b51ec4dade00c5"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/117/s/BILLSUM-117-s.zip",
+   "role": "summary",
+   "size": 6829316,
+   "sha256": "4e9ed91070f127cf2984aee01da0fed43e03e047529090da6952aa37cfd68fc7"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/1/s/BILLS-117-1-s.zip",
+   "role": "text",
+   "size": 34327803,
+   "sha256": "935476ac433615011b7270adab1cc213bdf82a7c2d34755b29ee32f49622e1fd"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/2/s/BILLS-117-2-s.zip",
+   "role": "text",
+   "size": 21389266,
+   "sha256": "7e1179f9c63348a3b03540baa8a0003b00d7a8a6ab6e239c2b6dd65ff0d1ffcc"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/117/hres/BILLSUM-117-hres.zip",
+   "role": "summary",
+   "size": 1725787,
+   "sha256": "a67a1bef56869b79257bfe69ae06e62deaa7ea3402aeb91469f73ad96c0cd69b"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/1/hres/BILLS-117-1-hres.zip",
+   "role": "text",
+   "size": 2863165,
+   "sha256": "74eb3659da10e389d7bf5527581623ba279c8a827825764c6ce9c8d614ce09a3"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/2/hres/BILLS-117-2-hres.zip",
+   "role": "text",
+   "size": 4812978,
+   "sha256": "aa2e37fc934579363587ced578f6ee02f7e290a967bd539f5b0d57f18a62328e"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/117/hjres/BILLSUM-117-hjres.zip",
+   "role": "summary",
+   "size": 123618,
+   "sha256": "6a6c8d42d8014891e8171f442fb62344c4a30b3953fd06994abaf944e5e0e38e"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/1/hjres/BILLS-117-1-hjres.zip",
+   "role": "text",
+   "size": 168385,
+   "sha256": "2bfb379c4fc12ac09d011d1d171f7d72b80105916cf6030f2d4d84c835927d5c"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/2/hjres/BILLS-117-2-hjres.zip",
+   "role": "text",
+   "size": 92621,
+   "sha256": "6c06e0b0a62684a2c6521220745b03a6be80d43223cbbe63f9a2b1cd07020e9c"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/117/sres/BILLSUM-117-sres.zip",
+   "role": "summary",
+   "size": 984462,
+   "sha256": "d19d361169604d0a64071d0673401cebf71c23f5353904d8abeaa40b7862e0a7"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/1/sres/BILLS-117-1-sres.zip",
+   "role": "text",
+   "size": 1845539,
+   "sha256": "1f906386afdaa0d5ee53f7577fefd4d09b8786ae3168404649230db77d4d1a0e"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/2/sres/BILLS-117-2-sres.zip",
+   "role": "text",
+   "size": 1612536,
+   "sha256": "41ab705b127e22b323774271eb8f30caecb63f126cfb66f4db2b9ed22b8a2349"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/117/sjres/BILLSUM-117-sjres.zip",
+   "role": "summary",
+   "size": 81319,
+   "sha256": "39e2bdeedbe05d00c6ace64590d1a5b0629ed994d4379a52bb820414484ae2cb"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/1/sjres/BILLS-117-1-sjres.zip",
+   "role": "text",
+   "size": 81028,
+   "sha256": "09b4e49a275ef860e0d7d3c25cf6f89e559c61b8ba2cf9a213da355bcc79dab9"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/2/sjres/BILLS-117-2-sjres.zip",
+   "role": "text",
+   "size": 92558,
+   "sha256": "b2697e8bd8aa6265c8f33739861971dac408e1022f6a5a11de262faac7a17b42"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/117/hconres/BILLSUM-117-hconres.zip",
+   "role": "summary",
+   "size": 145419,
+   "sha256": "96800c80c57894bc096783c2ba3d191c91d7279e7581a28e8ddaaae888c6d9da"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/1/hconres/BILLS-117-1-hconres.zip",
+   "role": "text",
+   "size": 309387,
+   "sha256": "3fc5afa59e3dcef109416c8f5dce954132449657c71d8edf03e60c9aa866ed4e"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/2/hconres/BILLS-117-2-hconres.zip",
+   "role": "text",
+   "size": 270917,
+   "sha256": "5b8ee2ffb1fc28274c2fb79743066aed9bdcd8487ec43d7bd4e94847a0858555"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/117/sconres/BILLSUM-117-sconres.zip",
+   "role": "summary",
+   "size": 62953,
+   "sha256": "3b0360ba2c521ee7d6a29f3b939c97cbb45baec8e70c17fa74b92d5b911d87a9"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/1/sconres/BILLS-117-1-sconres.zip",
+   "role": "text",
+   "size": 330171,
+   "sha256": "7b5af19b39e2b0b2e00a7d723ea12d3a39ffdcb40ea81f44d507c0a138ad2981"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/117/2/sconres/BILLS-117-2-sconres.zip",
+   "role": "text",
+   "size": 192327,
+   "sha256": "c451e8c577bdb5f17c2324c046632cde24a8569192b9563b6a28b9a85e4fce1c"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/118/hr/BILLSUM-118-hr.zip",
+   "role": "summary",
+   "size": 8816705,
+   "sha256": "9044a8524534b978e1c134289ba79b99e8b553dbc55c2b7c3ba33ac1941450af"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/1/hr/BILLS-118-1-hr.zip",
+   "role": "text",
+   "size": 47893641,
+   "sha256": "22814e20e95e6b1aa01d5cc44c7559ddbc9f555068f9c644daaf44db07013b6f"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/2/hr/BILLS-118-2-hr.zip",
+   "role": "text",
+   "size": 42752161,
+   "sha256": "5b1a303fa3d245131461055fcf7d2e69718e61822409a99f39ab89501ee36c28"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/118/s/BILLSUM-118-s.zip",
+   "role": "summary",
+   "size": 4429913,
+   "sha256": "e3756ba8f357c8ad205e2d0876dfa81ed5378e33a6de3f4c5ddc96d89d1c5e39"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/1/s/BILLS-118-1-s.zip",
+   "role": "text",
+   "size": 29847825,
+   "sha256": "5bcda7bfd1b0ac17d9c47472aa49be18a687bdb67aa1483fa9463eeb7067dd4d"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/2/s/BILLS-118-2-s.zip",
+   "role": "text",
+   "size": 24185162,
+   "sha256": "b5957b5bfdaabbd398eff5096e9abb3c574f9bfa1f7b6c6475a4751c6460c954"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/118/hres/BILLSUM-118-hres.zip",
+   "role": "summary",
+   "size": 1629158,
+   "sha256": "6f82f6ffa10ca03e5144fdc72629b7de5a2b17076593ef9ea933a1759710d6bf"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/1/hres/BILLS-118-1-hres.zip",
+   "role": "text",
+   "size": 3195396,
+   "sha256": "0f9ddde4cafc44ab56a17d5d021c50e2bd01448e9f405a8d5e9a6c9a29a4ad78"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/2/hres/BILLS-118-2-hres.zip",
+   "role": "text",
+   "size": 3121854,
+   "sha256": "70ed83f56f3895a8e4661463cfd4f1fe65b0d06f98630b60bba9624cf5fead4f"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/118/hjres/BILLSUM-118-hjres.zip",
+   "role": "summary",
+   "size": 152581,
+   "sha256": "6e8ec12388f1be010173e9c03392730be0002afde9e7f27fbe304037041af01f"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/1/hjres/BILLS-118-1-hjres.zip",
+   "role": "text",
+   "size": 323068,
+   "sha256": "5c5441123bacf4189f3980d9edaa7c931040e1cb367202a95f7966d7cc58fdbb"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/2/hjres/BILLS-118-2-hjres.zip",
+   "role": "text",
+   "size": 271762,
+   "sha256": "58bf2accf87b8f1f528f6c2adf3a1d2574940dde6a9381b7b26193f509ad90f9"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/118/sres/BILLSUM-118-sres.zip",
+   "role": "summary",
+   "size": 984037,
+   "sha256": "1a1a9134d9403e948e86a0552d8fc6689b3de9241bef6c280c828df5bbe0f6eb"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/1/sres/BILLS-118-1-sres.zip",
+   "role": "text",
+   "size": 1813009,
+   "sha256": "8b6199d417a9859a83110740237647c631c63222172ea207ab12faf5ab1fcc60"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/2/sres/BILLS-118-2-sres.zip",
+   "role": "text",
+   "size": 1477885,
+   "sha256": "4bd56ea1f0aecb8ce512c779eb975c3ba642df6b345f398e9792e7f34c66724b"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/118/sjres/BILLSUM-118-sjres.zip",
+   "role": "summary",
+   "size": 80231,
+   "sha256": "ee33c739b3c6b1ff1018f1ccb3b3ca6e7d069c6c447e222aaa7d24b0f3cd707c"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/1/sjres/BILLS-118-1-sjres.zip",
+   "role": "text",
+   "size": 158930,
+   "sha256": "4f07c801d50851f2961ee9d32ac236d9ea222e674646833954ac51b5b78c7a63"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/2/sjres/BILLS-118-2-sjres.zip",
+   "role": "text",
+   "size": 134061,
+   "sha256": "fe0323a5f761a9ff47e6e6afdc2840d2cea6c5a95d8067c9a4d415200afe9acc"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/118/hconres/BILLSUM-118-hconres.zip",
+   "role": "summary",
+   "size": 132654,
+   "sha256": "749978181ffe135f5677e047a9f9021f878157820410fc3096d9ca54e7d84ae4"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/1/hconres/BILLS-118-1-hconres.zip",
+   "role": "text",
+   "size": 321866,
+   "sha256": "905bacd5cf816f7d58c167690dbbb3311ce4fcba6865d068b05bc1c89e321bcf"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/2/hconres/BILLS-118-2-hconres.zip",
+   "role": "text",
+   "size": 252904,
+   "sha256": "0dde723c5d3383fc6e50bdfecc5b3af12affbcdd71841aa3c0effaeb401a4d9d"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/118/sconres/BILLSUM-118-sconres.zip",
+   "role": "summary",
+   "size": 45351,
+   "sha256": "d10b86f71b92bfab166c0e92956025fd7e25b2742abab3c182010ed13cec1ca1"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/1/sconres/BILLS-118-1-sconres.zip",
+   "role": "text",
+   "size": 104641,
+   "sha256": "944cbc82de5ba40a5e84857153c4928a10c1c1059ccff6bbf2d269a735d7cc0d"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/118/2/sconres/BILLS-118-2-sconres.zip",
+   "role": "text",
+   "size": 128303,
+   "sha256": "60b2d2690613553832d1eeed83edbdc3cc8838330923cb0306063989ebff95b5"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/119/hr/BILLSUM-119-hr.zip",
+   "role": "summary",
+   "size": 4960751,
+   "sha256": "87b0f3820e0e2b507cbefb7ff3ec93de303a2da5907f961b4814d2fc9181dea7"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/1/hr/BILLS-119-1-hr.zip",
+   "role": "text",
+   "size": 45722605,
+   "sha256": "4aba3f3be194372e42253bd9fca2c830ec247a3907a2a9872505b75661ab1f99"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/2/hr/BILLS-119-2-hr.zip",
+   "role": "text",
+   "size": 40720754,
+   "sha256": "07b4e60873a2fa8407e8c12264268af68b9381d48b4c885383c728c9631f8549"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/119/s/BILLSUM-119-s.zip",
+   "role": "summary",
+   "size": 2330659,
+   "sha256": "857c052ace46b4432323f051d23a358a475511a7068e50a71cf56435cc857f99"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/1/s/BILLS-119-1-s.zip",
+   "role": "text",
+   "size": 29536427,
+   "sha256": "3408ff72159b7078c09150e67ed375aa78c71d2dacaa99975335baa799949202"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/2/s/BILLS-119-2-s.zip",
+   "role": "text",
+   "size": 20895553,
+   "sha256": "bfa01a1cf2fc5b1e3a1cdfc8ddaea80288d628af61b754374f4afb3723e7dbe8"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/119/hres/BILLSUM-119-hres.zip",
+   "role": "summary",
+   "size": 587364,
+   "sha256": "3d307f19571b3bda3b69b8ecfe56b26448d18763207c1ef3fe281dc4717d37d8"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/1/hres/BILLS-119-1-hres.zip",
+   "role": "text",
+   "size": 3053036,
+   "sha256": "cb350aea43e10544e1870d1f30cb1fd50ab17fadd8973e5a4c8ffbb758b0a198"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/2/hres/BILLS-119-2-hres.zip",
+   "role": "text",
+   "size": 2535016,
+   "sha256": "428dc4bd05d3775ac1cf89f22f0f5a0cf7a057474516c83c7a80b54b2193e201"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/119/hjres/BILLSUM-119-hjres.zip",
+   "role": "summary",
+   "size": 137261,
+   "sha256": "8cb28474fd01ad488186d7c5c1a35795be786538b054e5760de9c9fbddbdf0c0"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/1/hjres/BILLS-119-1-hjres.zip",
+   "role": "text",
+   "size": 319851,
+   "sha256": "657071eb7ae43229d992ce9ab234cf11d15a29bd4feedc4018d4566bf860116a"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/2/hjres/BILLS-119-2-hjres.zip",
+   "role": "text",
+   "size": 184727,
+   "sha256": "26f23b79bd497b7bb02ec636dd625616c4db9cd273ffd8b435fd4c24476ce7f7"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/119/sres/BILLSUM-119-sres.zip",
+   "role": "summary",
+   "size": 306902,
+   "sha256": "18e480f98174dd5c1486f9c2d55b51d34052329e26cbf15d6dff8082aa865ef8"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/1/sres/BILLS-119-1-sres.zip",
+   "role": "text",
+   "size": 1916306,
+   "sha256": "3a2296ee0852d10192d9c0965585212066eb199dd45687d6ea08ec5864dc936a"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/2/sres/BILLS-119-2-sres.zip",
+   "role": "text",
+   "size": 1285761,
+   "sha256": "9ba58f338d721c6f74b12202cf7a5bc2cd9040d2af17391e0d8a25feaacc0672"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/119/sjres/BILLSUM-119-sjres.zip",
+   "role": "summary",
+   "size": 116704,
+   "sha256": "d1b5aa711dcfae9745e44883c7931d7811470806965d4c9008845a0c23635567"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/1/sjres/BILLS-119-1-sjres.zip",
+   "role": "text",
+   "size": 224893,
+   "sha256": "a8c864ab03793e36202cd72b3566c799d0cc42c7423c157fc2d6eecf0273e891"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/2/sjres/BILLS-119-2-sjres.zip",
+   "role": "text",
+   "size": 275843,
+   "sha256": "cef669917033caa8f5b0f9a9a650569cf77ebc332b0dfcf052158f8588835ba6"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/119/hconres/BILLSUM-119-hconres.zip",
+   "role": "summary",
+   "size": 67769,
+   "sha256": "77058df818f9e8fc0e68720c8252299966a52b4b1a5fbce6fe80657d16ec7fdd"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/1/hconres/BILLS-119-1-hconres.zip",
+   "role": "text",
+   "size": 426194,
+   "sha256": "da9890f82135c875a7aa37bc267e88aebc03eee2c32174112ba238ad8b26f734"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/2/hconres/BILLS-119-2-hconres.zip",
+   "role": "text",
+   "size": 272961,
+   "sha256": "fe6614cc5d3a8410272ec89a80042acb2ade7d55391378d491a1da8672709c8e"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLSUM/119/sconres/BILLSUM-119-sconres.zip",
+   "role": "summary",
+   "size": 22479,
+   "sha256": "f797d324af908beb61e1e3ffe3fc1e025e28d08e70e9c98922e87e4e5d9d877c"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/1/sconres/BILLS-119-1-sconres.zip",
+   "role": "text",
+   "size": 173935,
+   "sha256": "e5fecb07f4580010b29905e4ec55c7b6063ac8b72cc6b69ac2039a383555089d"
+  },
+  {
+   "url": "https://www.govinfo.gov/bulkdata/BILLS/119/2/sconres/BILLS-119-2-sconres.zip",
+   "role": "text",
+   "size": 228282,
+   "sha256": "1ed53730ce7ac18e637033a493889b2e4bb3ff9b4077e0756e26b03ef1073f8b"
+  }
+ ],
+ "shards": [
+  {
+   "shard": "116",
+   "rows": 19937,
+   "format": "parquet",
+   "file": "us-bills-116.parquet",
+   "bytes": 80749224,
+   "sha256": "7f2020c8033b7070f89086d7e0d07b9ba54edbf789372410d350e6dc9fdea433",
+   "stats": {
+    "congress": 116,
+    "summary_files": 16592,
+    "items": 16592,
+    "summaries": 19999,
+    "rows": 19937,
+    "excluded_summaries": 62,
+    "excluded_bills": 55,
+    "text_files": 20446,
+    "text_from_action": 18915,
+    "text_from_latest": 1022,
+    "text_missing": 0,
+    "bills": 16592
+   },
+   "by_type": {
+    "hr": {
+     "summary_files": 9061,
+     "summaries": 10710,
+     "rows": 10660,
+     "excluded_bills": 43
+    },
+    "s": {
+     "summary_files": 5078,
+     "summaries": 5948,
+     "rows": 5936,
+     "excluded_bills": 12
+    },
+    "hres": {
+     "summary_files": 1273,
+     "summaries": 1521,
+     "rows": 1521,
+     "excluded_bills": 0
+    },
+    "hjres": {
+     "summary_files": 110,
+     "summaries": 148,
+     "rows": 148,
+     "excluded_bills": 0
+    },
+    "sres": {
+     "summary_files": 808,
+     "summaries": 1287,
+     "rows": 1287,
+     "excluded_bills": 0
+    },
+    "sjres": {
+     "summary_files": 82,
+     "summaries": 124,
+     "rows": 124,
+     "excluded_bills": 0
+    },
+    "hconres": {
+     "summary_files": 128,
+     "summaries": 179,
+     "rows": 179,
+     "excluded_bills": 0
+    },
+    "sconres": {
+     "summary_files": 52,
+     "summaries": 82,
+     "rows": 82,
+     "excluded_bills": 0
+    }
+   }
+  },
+  {
+   "shard": "117",
+   "rows": 21200,
+   "format": "parquet",
+   "file": "us-bills-117.parquet",
+   "bytes": 90950108,
+   "sha256": "bbccbaae335b6cf39f5a77a86fbf2e7c305b7291d682575a8ff5bf72984c8542",
+   "stats": {
+    "congress": 117,
+    "summary_files": 17805,
+    "items": 17805,
+    "summaries": 21255,
+    "rows": 21200,
+    "excluded_summaries": 55,
+    "excluded_bills": 44,
+    "text_files": 21402,
+    "text_from_action": 20071,
+    "text_from_latest": 1119,
+    "text_missing": 10,
+    "bills": 17805
+   },
+   "by_type": {
+    "hr": {
+     "summary_files": 9690,
+     "summaries": 11203,
+     "rows": 11155,
+     "excluded_bills": 37
+    },
+    "s": {
+     "summary_files": 5355,
+     "summaries": 6321,
+     "rows": 6314,
+     "excluded_bills": 7
+    },
+    "hres": {
+     "summary_files": 1530,
+     "summaries": 1814,
+     "rows": 1814,
+     "excluded_bills": 0
+    },
+    "hjres": {
+     "summary_files": 106,
+     "summaries": 117,
+     "rows": 117,
+     "excluded_bills": 0
+    },
+    "sres": {
+     "summary_files": 877,
+     "summaries": 1461,
+     "rows": 1461,
+     "excluded_bills": 0
+    },
+    "sjres": {
+     "summary_files": 70,
+     "summaries": 90,
+     "rows": 90,
+     "excluded_bills": 0
+    },
+    "hconres": {
+     "summary_files": 125,
+     "summaries": 160,
+     "rows": 160,
+     "excluded_bills": 0
+    },
+    "sconres": {
+     "summary_files": 52,
+     "summaries": 89,
+     "rows": 89,
+     "excluded_bills": 0
+    }
+   }
+  },
+  {
+   "shard": "118",
+   "rows": 14278,
+   "format": "parquet",
+   "file": "us-bills-118.parquet",
+   "bytes": 44975991,
+   "sha256": "95cd4c164ca7cb3db979e6e3830ae3c03510a0c5550888631f6703a528d41a92",
+   "stats": {
+    "congress": 118,
+    "summary_files": 12149,
+    "items": 12149,
+    "summaries": 14290,
+    "rows": 14278,
+    "excluded_summaries": 12,
+    "excluded_bills": 12,
+    "text_files": 22922,
+    "text_from_action": 13454,
+    "text_from_latest": 814,
+    "text_missing": 10,
+    "bills": 12149
+   },
+   "by_type": {
+    "hr": {
+     "summary_files": 6276,
+     "summaries": 7278,
+     "rows": 7267,
+     "excluded_bills": 11
+    },
+    "s": {
+     "summary_files": 3184,
+     "summaries": 3602,
+     "rows": 3601,
+     "excluded_bills": 1
+    },
+    "hres": {
+     "summary_files": 1464,
+     "summaries": 1605,
+     "rows": 1605,
+     "excluded_bills": 0
+    },
+    "hjres": {
+     "summary_files": 120,
+     "summaries": 164,
+     "rows": 164,
+     "excluded_bills": 0
+    },
+    "sres": {
+     "summary_files": 886,
+     "summaries": 1374,
+     "rows": 1374,
+     "excluded_bills": 0
+    },
+    "sjres": {
+     "summary_files": 62,
+     "summaries": 77,
+     "rows": 77,
+     "excluded_bills": 0
+    },
+    "hconres": {
+     "summary_files": 117,
+     "summaries": 145,
+     "rows": 145,
+     "excluded_bills": 0
+    },
+    "sconres": {
+     "summary_files": 40,
+     "summaries": 45,
+     "rows": 45,
+     "excluded_bills": 0
+    }
+   }
+  },
+  {
+   "shard": "119",
+   "rows": 6453,
+   "format": "parquet",
+   "file": "us-bills-119.parquet",
+   "bytes": 23770725,
+   "sha256": "72f7d714f82f7b3fb47594c6d9a1d7acb925f8b293236043584a546773827fe7",
+   "stats": {
+    "congress": 119,
+    "summary_files": 6309,
+    "items": 6309,
+    "summaries": 6469,
+    "rows": 6453,
+    "excluded_summaries": 16,
+    "excluded_bills": 16,
+    "text_files": 23211,
+    "text_from_action": 6287,
+    "text_from_latest": 162,
+    "text_missing": 4,
+    "bills": 6309
+   },
+   "by_type": {
+    "hr": {
+     "summary_files": 3534,
+     "summaries": 3620,
+     "rows": 3604,
+     "excluded_bills": 16
+    },
+    "s": {
+     "summary_files": 1697,
+     "summaries": 1740,
+     "rows": 1740,
+     "excluded_bills": 0
+    },
+    "hres": {
+     "summary_files": 523,
+     "summaries": 524,
+     "rows": 524,
+     "excluded_bills": 0
+    },
+    "hjres": {
+     "summary_files": 107,
+     "summaries": 125,
+     "rows": 125,
+     "excluded_bills": 0
+    },
+    "sres": {
+     "summary_files": 280,
+     "summaries": 284,
+     "rows": 284,
+     "excluded_bills": 0
+    },
+    "sjres": {
+     "summary_files": 95,
+     "summaries": 101,
+     "rows": 101,
+     "excluded_bills": 0
+    },
+    "hconres": {
+     "summary_files": 56,
+     "summaries": 58,
+     "rows": 58,
+     "excluded_bills": 0
+    },
+    "sconres": {
+     "summary_files": 17,
+     "summaries": 17,
+     "rows": 17,
+     "excluded_bills": 0
+    }
+   }
+  }
+ ],
+ "rows": 61868,
+ "totals": {
+  "text_from_action": 58727,
+  "text_from_latest": 3117,
+  "text_missing": 24,
+  "excluded_bills": 127,
+  "excluded_summaries": 145,
+  "summary_files": 52855,
+  "bills": 52855
+ },
+ "refusals": [],
+ "seconds": 476.3,
+ "sample_rows": 100,
+ "publish": {
+  "published": false,
+  "note": "HF_TOKEN missing: built, not published"
+ },
+ "status": "OK"
+}
