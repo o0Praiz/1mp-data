@@ -1,0 +1,521 @@
+{
+ "library": "fda-decisions",
+ "title": "FDA regulatory decisions and enforcement actions, from openFDA bulk exports",
+ "built": "2026-11-18",
+ "built_at": "2026-11-18T18:54:22Z",
+ "shards_in_spec": [
+  "drug-drugsfda",
+  "drug-orangebook",
+  "drug-enforcement",
+  "device-510k",
+  "device-classification",
+  "device-pma",
+  "device-recall",
+  "device-enforcement",
+  "food-enforcement"
+ ],
+ "shards_built": [
+  "drug-drugsfda",
+  "drug-orangebook",
+  "drug-enforcement",
+  "device-510k",
+  "device-classification",
+  "device-pma",
+  "device-recall",
+  "device-enforcement",
+  "food-enforcement"
+ ],
+ "rotate": false,
+ "licence": {
+  "id": "CC0-1.0",
+  "name": "Creative Commons CC0 1.0 Universal",
+  "proof": "openFDA's own licensing page dedicates the content to the public domain under CC0 1.0.",
+  "proof_url": "https://open.fda.gov/license/",
+  "proof_read": "2026-10-12",
+  "source_statement": "As noted in the terms of service, unless otherwise noted, the content, data, documentation, code, and related materials on openFDA is public domain and made available with a Creative Commons CC0 1.0 Universal dedication.",
+  "statement_seen_in": "the body of https://open.fda.gov/license/, last modified May 27, 2014, read unchanged on 2026-10-12",
+  "gmdn_carve_out": "The same page says GMDN Term Code, Name and Definition are supplied under licence from The GMDN Agency and need a licence from them for commercial use and for AI training purposes. drop_fields below is the gate; no endpoint in this library has a GMDN field."
+ },
+ "schema": [
+  {
+   "name": "endpoint",
+   "type": "string",
+   "note": "the openFDA endpoint, e.g. device/510k. With record_key this is the row key"
+  },
+  {
+   "name": "record_key",
+   "type": "string",
+   "note": "the endpoint's own key, its parts joined with |. Unique within the endpoint"
+  },
+  {
+   "name": "key_fields",
+   "type": "string",
+   "note": "the source field name or names record_key was taken from, joined with |"
+  },
+  {
+   "name": "export_date",
+   "type": "string",
+   "note": "the export date openFDA published for this endpoint, read from download.json at build time"
+  },
+  {
+   "name": "record",
+   "type": "string",
+   "note": "the whole openFDA record as compact JSON with its keys sorted, minus the fields in drop_fields"
+  },
+  {
+   "name": "record_fields",
+   "type": "int32",
+   "note": "number of top-level fields in record"
+  },
+  {
+   "name": "record_len",
+   "type": "int32",
+   "note": "characters in record"
+  },
+  {
+   "name": "dropped_fields",
+   "type": "string",
+   "note": "the drop_fields this record carried before they were removed, joined with |. Empty when none"
+  },
+  {
+   "name": "application_number",
+   "type": "string",
+   "note": "drug/drugsfda and drug/orangebook. Empty elsewhere"
+  },
+  {
+   "name": "recall_number",
+   "type": "string",
+   "note": "the three enforcement endpoints. Empty elsewhere"
+  },
+  {
+   "name": "k_number",
+   "type": "string",
+   "note": "device/510k. Empty elsewhere"
+  },
+  {
+   "name": "pma_number",
+   "type": "string",
+   "note": "device/pma. Empty elsewhere"
+  },
+  {
+   "name": "supplement_number",
+   "type": "string",
+   "note": "device/pma. Empty elsewhere"
+  },
+  {
+   "name": "product_code",
+   "type": "string",
+   "note": "device/510k, device/classification, device/pma and device/recall. Empty elsewhere"
+  },
+  {
+   "name": "product_number",
+   "type": "string",
+   "note": "drug/orangebook. Empty elsewhere"
+  },
+  {
+   "name": "event_id",
+   "type": "string",
+   "note": "the three enforcement endpoints, and device/recall's res_event_number. Empty elsewhere"
+  },
+  {
+   "name": "partition_file",
+   "type": "string",
+   "note": "the name of the JSON file inside the source zip"
+  },
+  {
+   "name": "manifest_url",
+   "type": "string",
+   "note": "the download manifest this build read the export date and the record count from"
+  },
+  {
+   "name": "source_url",
+   "type": "string",
+   "note": "the openFDA bulk partition this row came from"
+  },
+  {
+   "name": "retrieved_at",
+   "type": "string",
+   "note": "UTC, when the source bytes were fetched"
+  },
+  {
+   "name": "sha256",
+   "type": "string",
+   "note": "sha256 of the source zip's bytes"
+  }
+ ],
+ "exclude": [],
+ "not_covered": [
+  "The adverse-event endpoints: drug/event, device/event, food/event, animalandveterinary/event and cosmetic/event. They are reports about individual people, carrying age, sex, weight and medical history. Personal data is out on docs/42 section 5 and on rail 1. This build never requests them, not even to count them; the record counts printed for them above come from openFDA's own download manifest.",
+  "device/udi. Its records carry GMDN Term Code, Name and Definition, and open.fda.gov/license says GMDN content needs a licence from The GMDN Agency for commercial use and for AI training purposes. docs/42 section 5 allows CC0 and CC-BY only, so it is out.",
+  "The multi-partition endpoints that are neither of the above: drug/label (14 partitions), other/nsde (3), device/registrationlisting (2) and animalandveterinary, device and drug event files. This library is built for single-partition endpoints, so that one endpoint is one zip and the whole library rebuilds daily inside the 20-minute budget.",
+  "Single-partition endpoints outside the administrative set O-32 named: device/covid19serology, drug/ndc, drug/shortages, other/historicaldocument, other/substance, other/unii, research/*, tobacco/problem and transparency/crl. Not refused on any rail, simply not in scope for O-32.",
+  "The contact fields listed under drop_fields. The decision record is here; the named individual is not.",
+  "Any interpretation. A row is the agency's administrative record, unchanged. This library says nothing about what an approval, a classification or a recall means."
+ ],
+ "sources": [
+  {
+   "url": "https://api.fda.gov/download.json",
+   "role": "manifest",
+   "size": 602514,
+   "sha256": "bb3b873e2d9ceea4017f2cbac9fead7985f16606a9fbf5c9ca23e639da3d2cb4"
+  },
+  {
+   "url": "https://download.open.fda.gov/drug/drugsfda/drug-drugsfda-0001-of-0001.json.zip",
+   "role": "data",
+   "size": 9452006,
+   "sha256": "e41bacbbf566e8073ee416e29320d1e1139ca28e2b9f90237f9f7d2d552c207b"
+  },
+  {
+   "url": "https://api.fda.gov/download.json",
+   "role": "manifest",
+   "size": 602514,
+   "sha256": "bb3b873e2d9ceea4017f2cbac9fead7985f16606a9fbf5c9ca23e639da3d2cb4"
+  },
+  {
+   "url": "https://download.open.fda.gov/drug/orangebook/drug-orangebook-0001-of-0001.json.zip",
+   "role": "data",
+   "size": 2473392,
+   "sha256": "c883cd4249725a1c961acf834d3494b45eddf86a3301267a5939d658ecd8a0a0"
+  },
+  {
+   "url": "https://api.fda.gov/download.json",
+   "role": "manifest",
+   "size": 602514,
+   "sha256": "bb3b873e2d9ceea4017f2cbac9fead7985f16606a9fbf5c9ca23e639da3d2cb4"
+  },
+  {
+   "url": "https://download.open.fda.gov/drug/enforcement/drug-enforcement-0001-of-0001.json.zip",
+   "role": "data",
+   "size": 4058576,
+   "sha256": "1fbd83047d02f03f4057cf73b8f0daab6f25d49a91f4d90e73714d02d685dfba"
+  },
+  {
+   "url": "https://api.fda.gov/download.json",
+   "role": "manifest",
+   "size": 602514,
+   "sha256": "bb3b873e2d9ceea4017f2cbac9fead7985f16606a9fbf5c9ca23e639da3d2cb4"
+  },
+  {
+   "url": "https://download.open.fda.gov/device/510k/device-510k-0001-of-0001.json.zip",
+   "role": "data",
+   "size": 249823383,
+   "sha256": "0906b55903e21b1ffe078fb102f6e1ea65d89420b6398108dfe559bfe552c7c8"
+  },
+  {
+   "url": "https://api.fda.gov/download.json",
+   "role": "manifest",
+   "size": 602514,
+   "sha256": "bb3b873e2d9ceea4017f2cbac9fead7985f16606a9fbf5c9ca23e639da3d2cb4"
+  },
+  {
+   "url": "https://download.open.fda.gov/device/classification/device-classification-0001-of-0001.json.zip",
+   "role": "data",
+   "size": 3281838,
+   "sha256": "c2aace26d6f4a37555eaf685557c3cdfe178527be84bc1e69a5d0228bd050325"
+  },
+  {
+   "url": "https://api.fda.gov/download.json",
+   "role": "manifest",
+   "size": 602514,
+   "sha256": "bb3b873e2d9ceea4017f2cbac9fead7985f16606a9fbf5c9ca23e639da3d2cb4"
+  },
+  {
+   "url": "https://download.open.fda.gov/device/pma/device-pma-0001-of-0001.json.zip",
+   "role": "data",
+   "size": 22314267,
+   "sha256": "58349ca22d83755b3f2f3df521cd033b1e69ed2d6197115b1f8940d3f864203a"
+  },
+  {
+   "url": "https://api.fda.gov/download.json",
+   "role": "manifest",
+   "size": 602514,
+   "sha256": "bb3b873e2d9ceea4017f2cbac9fead7985f16606a9fbf5c9ca23e639da3d2cb4"
+  },
+  {
+   "url": "https://download.open.fda.gov/device/recall/device-recall-0001-of-0001.json.zip",
+   "role": "data",
+   "size": 289884649,
+   "sha256": "32b7f8e02b50c61bcf5f9755d86487a7f7b1e5ad3ec164539157b5caa9a176d4"
+  },
+  {
+   "url": "https://api.fda.gov/download.json",
+   "role": "manifest",
+   "size": 602514,
+   "sha256": "bb3b873e2d9ceea4017f2cbac9fead7985f16606a9fbf5c9ca23e639da3d2cb4"
+  },
+  {
+   "url": "https://download.open.fda.gov/device/enforcement/device-enforcement-0001-of-0001.json.zip",
+   "role": "data",
+   "size": 95629240,
+   "sha256": "414b718066e92c6f923656e9ce7c37e22412aaa1dff11eb52b7e3809752513f3"
+  },
+  {
+   "url": "https://api.fda.gov/download.json",
+   "role": "manifest",
+   "size": 602514,
+   "sha256": "bb3b873e2d9ceea4017f2cbac9fead7985f16606a9fbf5c9ca23e639da3d2cb4"
+  },
+  {
+   "url": "https://download.open.fda.gov/food/enforcement/food-enforcement-0001-of-0001.json.zip",
+   "role": "data",
+   "size": 5883667,
+   "sha256": "6a4c8ba5166c8bb1fb951a0a9964ee2d00a9a0b7ddb88b87728c569db719e147"
+  }
+ ],
+ "shards": [
+  {
+   "shard": "drug-drugsfda",
+   "rows": 29460,
+   "format": "parquet",
+   "file": "fda-decisions-drug-drugsfda.parquet",
+   "bytes": 8383770,
+   "sha256": "8313955c17be793ec25f4e4a5371e420877d638220d1cfbadb49a7c850ea2558",
+   "stats": {
+    "endpoint": "drug/drugsfda",
+    "shard": "drug-drugsfda",
+    "export_date": "2026-11-18",
+    "source_records": 29460,
+    "file_records": 29460,
+    "partition_records": 29460,
+    "records_read": 29460,
+    "rows_built": 29460,
+    "key_from_fallback": 0,
+    "dropped_fields": {},
+    "dropped_field_count": 0,
+    "gmdn_fields": 0,
+    "refusals": [],
+    "partition_file": "drug-drugsfda-0001-of-0001.json",
+    "file_last_updated": "2026-11-18"
+   },
+   "by_type": {}
+  },
+  {
+   "shard": "drug-orangebook",
+   "rows": 48990,
+   "format": "parquet",
+   "file": "fda-decisions-drug-orangebook.parquet",
+   "bytes": 2894641,
+   "sha256": "30840363fd845cdfe66d058ccba9b5caabb188018f62f0b978c2f109c0b8475a",
+   "stats": {
+    "endpoint": "drug/orangebook",
+    "shard": "drug-orangebook",
+    "export_date": "2026-11-18",
+    "source_records": 48990,
+    "file_records": 48990,
+    "partition_records": 48990,
+    "records_read": 48990,
+    "rows_built": 48990,
+    "key_from_fallback": 0,
+    "dropped_fields": {},
+    "dropped_field_count": 0,
+    "gmdn_fields": 0,
+    "refusals": [],
+    "partition_file": "drug-orangebook-0001-of-0001.json",
+    "file_last_updated": "2026-11-18"
+   },
+   "by_type": {}
+  },
+  {
+   "shard": "drug-enforcement",
+   "rows": 18166,
+   "format": "parquet",
+   "file": "fda-decisions-drug-enforcement.parquet",
+   "bytes": 3821066,
+   "sha256": "03381f4e8a0f98395ff05cac0b9b90be2575f302a1e95b2655125ff3f6731056",
+   "stats": {
+    "endpoint": "drug/enforcement",
+    "shard": "drug-enforcement",
+    "export_date": "2026-11-17",
+    "source_records": 18166,
+    "file_records": 18166,
+    "partition_records": 18166,
+    "records_read": 18166,
+    "rows_built": 18166,
+    "key_from_fallback": 1,
+    "dropped_fields": {},
+    "dropped_field_count": 0,
+    "gmdn_fields": 0,
+    "refusals": [],
+    "partition_file": "drug-enforcement-0001-of-0001.json",
+    "file_last_updated": "2026-11-17"
+   },
+   "by_type": {}
+  },
+  {
+   "shard": "device-510k",
+   "rows": 176683,
+   "format": "parquet",
+   "file": "fda-decisions-device-510k.parquet",
+   "bytes": 154727341,
+   "sha256": "77582d9d458ce51dba090390cf05344d0605916658bbd07a9e4565dbe71e392e",
+   "stats": {
+    "endpoint": "device/510k",
+    "shard": "device-510k",
+    "export_date": "2026-11-18",
+    "source_records": 176683,
+    "file_records": 176683,
+    "partition_records": 176683,
+    "records_read": 176683,
+    "rows_built": 176683,
+    "key_from_fallback": 0,
+    "dropped_fields": {
+     "contact": 176683
+    },
+    "dropped_field_count": 176683,
+    "gmdn_fields": 0,
+    "refusals": [],
+    "partition_file": "device-510k-0001-of-0001.json",
+    "file_last_updated": "2026-11-18"
+   },
+   "by_type": {}
+  },
+  {
+   "shard": "device-classification",
+   "rows": 7103,
+   "format": "parquet",
+   "file": "fda-decisions-device-classification.parquet",
+   "bytes": 2980817,
+   "sha256": "15769f2a014c3c4dab82909ce5d271c06f4b0a6fa89a43567122ff22959f8b5c",
+   "stats": {
+    "endpoint": "device/classification",
+    "shard": "device-classification",
+    "export_date": "2026-11-18",
+    "source_records": 7103,
+    "file_records": 7103,
+    "partition_records": 7103,
+    "records_read": 7103,
+    "rows_built": 7103,
+    "key_from_fallback": 0,
+    "dropped_fields": {},
+    "dropped_field_count": 0,
+    "gmdn_fields": 0,
+    "refusals": [],
+    "partition_file": "device-classification-0001-of-0001.json",
+    "file_last_updated": "2026-11-18"
+   },
+   "by_type": {}
+  },
+  {
+   "shard": "device-pma",
+   "rows": 57518,
+   "format": "parquet",
+   "file": "fda-decisions-device-pma.parquet",
+   "bytes": 13506035,
+   "sha256": "66f5520558341a5653710757d2be908962615cec855243fae956e85411eff610",
+   "stats": {
+    "endpoint": "device/pma",
+    "shard": "device-pma",
+    "export_date": "2026-11-18",
+    "source_records": 57518,
+    "file_records": 57518,
+    "partition_records": 57518,
+    "records_read": 57518,
+    "rows_built": 57518,
+    "key_from_fallback": 0,
+    "dropped_fields": {},
+    "dropped_field_count": 0,
+    "gmdn_fields": 0,
+    "refusals": [],
+    "partition_file": "device-pma-0001-of-0001.json",
+    "file_last_updated": "2026-11-18"
+   },
+   "by_type": {}
+  },
+  {
+   "shard": "device-recall",
+   "rows": 59705,
+   "format": "parquet",
+   "file": "fda-decisions-device-recall.parquet",
+   "bytes": 213924373,
+   "sha256": "540a19bad37da89f74d3ca3586fc0cd593f2174a7df73052dcdf6ffa400b670f",
+   "stats": {
+    "endpoint": "device/recall",
+    "shard": "device-recall",
+    "export_date": "2026-11-18",
+    "source_records": 59705,
+    "file_records": 59705,
+    "partition_records": 59705,
+    "records_read": 59705,
+    "rows_built": 59705,
+    "key_from_fallback": 0,
+    "dropped_fields": {
+     "additional_info_contact": 52969
+    },
+    "dropped_field_count": 52969,
+    "gmdn_fields": 0,
+    "refusals": [],
+    "partition_file": "device-recall-0001-of-0001.json",
+    "file_last_updated": "2026-11-18"
+   },
+   "by_type": {}
+  },
+  {
+   "shard": "device-enforcement",
+   "rows": 40535,
+   "format": "parquet",
+   "file": "fda-decisions-device-enforcement.parquet",
+   "bytes": 90477320,
+   "sha256": "79119a0be45fbc8ca01c2561391411c76eb992e7e6a37799e79b20621291260d",
+   "stats": {
+    "endpoint": "device/enforcement",
+    "shard": "device-enforcement",
+    "export_date": "2026-11-17",
+    "source_records": 40535,
+    "file_records": 40535,
+    "partition_records": 40535,
+    "records_read": 40535,
+    "rows_built": 40535,
+    "key_from_fallback": 1,
+    "dropped_fields": {},
+    "dropped_field_count": 0,
+    "gmdn_fields": 0,
+    "refusals": [],
+    "partition_file": "device-enforcement-0001-of-0001.json",
+    "file_last_updated": "2026-11-17"
+   },
+   "by_type": {}
+  },
+  {
+   "shard": "food-enforcement",
+   "rows": 29609,
+   "format": "parquet",
+   "file": "fda-decisions-food-enforcement.parquet",
+   "bytes": 5756328,
+   "sha256": "ecaf85130e95aa2d0f424731ca495bebce6114c5d4d7f44291e9afb2a0d301da",
+   "stats": {
+    "endpoint": "food/enforcement",
+    "shard": "food-enforcement",
+    "export_date": "2026-11-17",
+    "source_records": 29609,
+    "file_records": 29609,
+    "partition_records": 29609,
+    "records_read": 29609,
+    "rows_built": 29609,
+    "key_from_fallback": 1,
+    "dropped_fields": {},
+    "dropped_field_count": 0,
+    "gmdn_fields": 0,
+    "refusals": [],
+    "partition_file": "food-enforcement-0001-of-0001.json",
+    "file_last_updated": "2026-11-17"
+   },
+   "by_type": {}
+  }
+ ],
+ "rows": 467769,
+ "totals": {
+  "records_read": 467769,
+  "rows_built": 467769,
+  "dropped_field_count": 229652,
+  "gmdn_fields": 0,
+  "key_from_fallback": 3
+ },
+ "refusals": [],
+ "seconds": 93.3,
+ "sample_rows": 100,
+ "publish": {
+  "published": false,
+  "note": "HF_TOKEN missing: built, not published"
+ },
+ "status": "OK"
+}
